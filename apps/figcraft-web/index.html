@@ -20,11 +20,14 @@
   <canvas id="figcraft_canvas"></canvas>
   <script>
     (function() {
-      // Backend wake-up & keep-alive: ping /healthz if a collab server is configured
+      // Backend wake-up & keep-alive: ping /healthz on load and periodically
+      window.__FIGCRAFT_SERVER_URL__ = "wss://figma2-0.onrender.com";
       const serverUrl = window.localStorage.getItem('figcraft_collab_server') || window.__FIGCRAFT_SERVER_URL__;
       if (serverUrl) {
         const httpUrl = serverUrl.replace(/^wss:\/\//i, 'https://').replace(/^ws:\/\//i, 'http://').replace(/\/+$/, '') + '/healthz';
+        // Ping immediately to warm up the backend
         fetch(httpUrl, { mode: 'no-cors' }).catch(() => {});
+        // Recurring ping every 10 minutes to prevent sleep
         setInterval(() => {
           fetch(httpUrl, { mode: 'no-cors' }).catch(() => {});
         }, 10 * 60 * 1000);
