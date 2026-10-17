@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: figcraft-server
+    env: docker
+    dockerfilePath: Dockerfile
+    plan: free
+    healthCheckPath: /healthz
+    envVars:
+      - key: OPEN_PUBLISH
+        value: "true"
+      - key: DATA_DIR
+        value: /tmp/figcraft-data
