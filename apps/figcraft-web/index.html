@@ -17,9 +17,14 @@
   </style>
 </head>
 <body>
-  <canvas id="figcraft_canvas"></canvas>
+  <canvas id="figcraft_canvas" tabindex="0"></canvas>
   <script>
     (function() {
+      const canvas = document.getElementById('figcraft_canvas');
+      if (canvas) {
+        canvas.addEventListener('click', () => canvas.focus());
+        canvas.focus();
+      }
       // Backend wake-up & keep-alive: ping /healthz on load and periodically
       window.__FIGCRAFT_SERVER_URL__ = "wss://figma2-0.onrender.com";
       const serverUrl = window.localStorage.getItem('figcraft_collab_server') || window.__FIGCRAFT_SERVER_URL__;

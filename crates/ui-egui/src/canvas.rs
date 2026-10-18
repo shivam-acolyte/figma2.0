@@ -544,6 +544,12 @@ fn input(app: &mut FigApp, ui: &mut Ui, resp: &egui::Response) -> bool {
     if resp.hovered() && ctx.input(|i| i.pointer.any_pressed()) {
         app.ui.layers_focus = false;
         app.ui.key_box = None;
+        resp.request_focus();
+        ctx.memory_mut(|m| {
+            if let Some(focused) = m.focused() {
+                m.surrender_focus(focused);
+            }
+        });
     }
     // Zoom (pinch, Cmd/Ctrl+scroll) about the pointer; plain scroll pans.
     if resp.hovered() {

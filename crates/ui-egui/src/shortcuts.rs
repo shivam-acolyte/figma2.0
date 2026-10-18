@@ -97,17 +97,19 @@ fn cached_tip(label: &'static str, key: Option<&'static str>) -> &'static str {
 /// `swallowed`: what this frame's Cmd/Ctrl+V chords the shell swallowed ask for ([`swallowed_paste`]).
 pub fn handle(app: &mut FigApp, ctx: &Context, typing: bool, swallowed: Swallowed) {
     note_platform(ctx);
+    let events: Vec<Event> = ctx.input(|i| i.events.clone());
+    let editing = app.session.ds().map(|d| d.text_edit.is_some()).unwrap_or(false);
+    if editing {
+        if !events.is_empty() {
+            text_keys(app, ctx, &events);
+        }
+        return;
+    }
     // Text fields in panels own the keyboard (also the key that ends their editing).
     if typing || crate::a11y::field_focused(ctx) || app.ui.palette.is_some() {
         return;
     }
-    let events: Vec<Event> = ctx.input(|i| i.events.clone());
     if events.is_empty() {
-        return;
-    }
-    let editing = app.session.ds().map(|d| d.text_edit.is_some()).unwrap_or(false);
-    if editing {
-        text_keys(app, ctx, &events);
         return;
     }
     // An image-only clipboard brings no paste event: paste from the key then. The browser sends
