@@ -9,8 +9,8 @@ fn main() {
         if std::path::Path::new(ico).exists() {
             res.set_icon(ico);
         }
-        res.set("ProductName", "FigCraft");
-        res.set("FileDescription", "FigCraft");
+        res.set("ProductName", "ACO Figma");
+        res.set("FileDescription", "ACO Figma");
         res.set("CompanyName", "ArtCraft");
         if let Err(e) = res.compile() {
             println!("cargo::warning=winresource: {e}");

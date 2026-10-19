@@ -125,7 +125,7 @@ fn about_body(ui: &mut egui::Ui, t: &Tokens) {
         ui.painter().rect_filled(r, CornerRadius::same(10), ACCENT);
         icons::paint(ui.painter(), r.shrink(10.0), Icon::Logo, Color32::WHITE);
         ui.vertical(|ui| {
-            ui.label(RichText::new("FigCraft").font(semibold(18.0)));
+            ui.label(RichText::new("ACO Figma").font(semibold(18.0)));
             ui.label(RichText::new(trf("Version {version}", &[("version", &VERSION)])).color(t.text_secondary));
         });
     });
